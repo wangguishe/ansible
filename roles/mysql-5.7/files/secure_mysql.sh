@@ -8,8 +8,8 @@ set time 5
 spawn /usr/local/mysql/bin/mysql_secure_installation -S /data/apps/mysql/mysql.sock
 expect {
 "Enter password for user root: " { send "${init_passwd}\r"; exp_continue }
-"New password:" { send "2VxGRDs@@k^XWWtZ%kPB\r"; exp_continue }
-"Re-enter new password" { send "2VxGRDs@@k^XWWtZ%kPB\r"; exp_continue }
+"New password:" { send "12345678\r"; exp_continue }
+"Re-enter new password" { send "12345678\r"; exp_continue }
 "Press y|Y for Yes, any other key for No" { send "y\r"; exp_continue }
 "Please enter 0 = LOW, 1 = MEDIUM and 2 = STRONG" { send "2\r"; exp_continue }
 "Press y|Y for Yes, any other key for No)" { send "n\r"; exp_continue }
