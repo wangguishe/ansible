@@ -1,0 +1,6 @@
+- hosts: es
+  remote_user: ubuntu
+  become: yes
+  roles:
+   - role: docker
+     gid: 998

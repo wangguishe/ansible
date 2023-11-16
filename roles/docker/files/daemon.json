@@ -1,0 +1,5 @@
+{
+        "registry-mirrors":["https://fv50tv30.mirror.aliyuncs.com","https://reg-mirror.qiniu.com"],
+        "data-root": "/data/apps/docker"
+
+}

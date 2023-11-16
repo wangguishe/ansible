@@ -1,0 +1,27 @@
+- name: service containerd.service script
+  copy: 
+    src: containerd.service 
+    dest: /lib/systemd/system/containerd.service
+- name: service docker script
+  copy: 
+    src: docker.service  
+    dest: /lib/systemd/system/docker.service
+- name: service docker.socket
+  copy: 
+    src: docker.socket 
+    dest: /lib/systemd/system/docker.socket
+- name: start containerd.service
+  systemd: 
+    name: containerd.service
+    state: started 
+    enabled: yes
+- name: start docker.socket
+  systemd: 
+    name: docker.socket
+    state: started 
+    enabled: yes
+- name: start docker service
+  systemd: 
+    name: docker.service 
+    state: started 
+    enabled: yes

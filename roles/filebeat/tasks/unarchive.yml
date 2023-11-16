@@ -1,0 +1,13 @@
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /data/apps/filebeat
+    state: directory
+- name: copy tar to remote host and file mode
+  unarchive: 
+    src: filebeat-8.7.0-linux-x86_64.tar.gz 
+    dest: /data/apps/filebeat/
+- name: create ln 
+  file: 
+    src: /data/apps/filebeat/filebeat-8.7.0-linux-x86_64
+    dest: /usr/local/filebeat
+    state: link

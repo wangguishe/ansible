@@ -1,0 +1,9 @@
+- name: service script
+  copy: 
+    src: mysqld.service  
+    dest: /lib/systemd/system/mysqld.service
+- name: start service
+  service: 
+    name: mysqld 
+    state: started 
+    enabled: yes

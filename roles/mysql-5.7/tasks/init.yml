@@ -1,0 +1,2 @@
+- name: init mysql
+  shell: /usr/local/mysql/bin/mysqld --defaults-file=/data/apps/mysql/my.cnf   --user=mysql  --datadir=/data/apps/mysql/data  --initialize

@@ -1,0 +1,5 @@
+- name: upgrade os software
+  apt: upgrade=yes update_cache=yes cache_valid_time=3600
+- name: install packages for ubuntu22.04
+  apt:
+    name: libncurses-dev,libncurses5,expect

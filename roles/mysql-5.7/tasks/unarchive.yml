@@ -1,0 +1,11 @@
+- name: copy tar to remote host and file mode
+  unarchive: 
+    src: mysql-5.7.40-linux-glibc2.12-x86_64.tar.gz 
+    dest: /usr/local/ 
+    owner: mysql 
+    group: mysql
+- name: mkdir /usr/local/mysql
+  file: 
+    src: mysql-5.7.40-linux-glibc2.12-x86_64 
+    dest: /usr/local/mysql 
+    state: link

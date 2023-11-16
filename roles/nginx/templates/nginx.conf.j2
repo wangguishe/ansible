@@ -1,0 +1,97 @@
+user  {{ user }};
+worker_processes  auto;
+
+worker_rlimit_nofile 65535;
+events {
+    worker_connections  65535;
+    use epoll;
+    accept_mutex on;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+
+    log_format json escape=json '{'
+                        '"@timestamp":"$time_iso8601",'
+                        '"@source":"$server_addr",'
+                        '"@nginx_fields":{'
+                            '"http_x_forwarded_for":"$http_x_forwarded_for",'
+                            '"request":"$request",'
+                            '"status":"$status",'
+                            '"body_bytes_sent":"$body_bytes_sent",'
+                            '"http_referer":"$http_referer",'
+                            '"client":"$remote_addr",'
+                            '"request_time":"$request_time",'
+                            '"upstream_response_time":"$upstream_response_time",'
+                            '"upstream_addr":"$upstream_addr",'
+                            '"request_method":"$request_method",'
+                            '"domain":"$host",'
+                            '"url":"$uri",'
+                            '"args":"$args",'
+                            '"request_body":"$request_body",'
+                            '"http_user_agent":"$http_user_agent",'
+                            '"remote_addr":"$remote_addr",'
+                            '"proxy_add_x_forwarded_for":"$proxy_add_x_forwarded_for"'
+                        '}'
+                    '}';
+
+
+    access_log  logs/access.log  json;
+
+    sendfile        on;
+    tcp_nopush     on;
+    types_hash_max_size 2048;
+    keepalive_timeout  65;
+    client_header_buffer_size 4k;
+    client_max_body_size 512M;
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+    ssl_prefer_server_ciphers on;
+
+    aio on;
+    gzip  on;
+    gzip_vary on;  
+    gzip_proxied any;
+    gzip_min_length 1k;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.1;
+    gzip_comp_level 6;
+    gzip_types  text/plain application/json application/javascript application/x-javascript application/css application/xml application/xml+rss text/javascript application/x-httpd-php image/jpeg image/gif image/png image/x-ms-bmp;
+
+ 
+    include /usr/local/nginx/conf/vhosts/*.conf;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+
+        location / {
+            root   html;
+            real_ip_header     X-Forwarded-For;
+            index  index.html index.htm index.php;
+        }
+
+        location /basic_status {
+           stub_status on;
+        }
+
+
+        location ~ ^/(pm_status|ping)$ {
+          fastcgi_pass 127.0.0.1:9000;
+          fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+          include        fastcgi_params;
+        }
+
+        location ~ \.php$ {
+            root           html;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            include        fastcgi_params;
+        }
+   }
+}

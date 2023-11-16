@@ -1,0 +1,14 @@
+- name: create mysql group
+  group: 
+    name: mysql
+    state: present
+    gid: 227
+- name: create mysql user
+  user: 
+    name: mysql  
+    group: mysql 
+    shell: /bin/false 
+    system: yes
+    comment: Mysql Server
+    uid: 227
+    home: /data/apps/mysql

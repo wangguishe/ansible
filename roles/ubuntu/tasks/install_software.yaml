@@ -1,0 +1,6 @@
+- name: install software
+  apt: name=chrony,libpam-pwquality,auditd
+- name: start chrony service
+  service: name=chrony state=started enabled=yes
+- name: start auditd service
+  service: name=auditd state=started enabled=yes

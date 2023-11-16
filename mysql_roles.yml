@@ -1,0 +1,5 @@
+- hosts: jumpserver
+  remote_user: ubuntu
+  become: yes
+  roles:
+   - role: mysql-5.7

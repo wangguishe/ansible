@@ -1,0 +1,50 @@
+- name: 系统时间12小时转为24小时制
+  lineinfile: 
+    path: /etc/default/locale
+    line: LC_TIME=en_DK.UTF-8
+
+- name: 设置主机名称
+  hostname: 
+    name: "{{ hostname }}"
+- name: 修改密码过期时间
+  lineinfile: 
+    path: /etc/login.defs
+    regexp: '^{{ item.name }}'
+    line:  "{{ item.name }}  {{ item.value }}"
+  with_items:
+    - { name: PASS_MAX_DAYS, value: 90 }
+    - { name: PASS_MIN_DAYS, value: 7 }
+    - { name: PASS_WARN_AGE, value: 14 }
+
+- name: 设置登录空闲超时时间
+  lineinfile: 
+    path: /etc/ssh/sshd_config
+    regexp: '^{{ item.name }}'
+    line:  "{{ item.value }}"
+  with_items:
+    - { name: '#ClientAliveInterval', value: ClientAliveInterval 3600 }
+    - { name: '#MaxAuthTries', value: MaxAuthTries 3 }
+    - { name: '#Port', value: Port 32323 }
+  
+- name: 设置登录失败策略 /etc/pam.d/common-auth
+  blockinfile: 
+    path: /etc/pam.d/common-auth
+    insertbefore: "# here's the fallback if no module succeeds"
+    block: |
+      auth     [default=die]  pam_faillock.so authfail
+      auth     sufficient     pam_faillock.so authsuc
+  
+- name: 设置登录失败策略 /etc/pam.d/common-account
+  lineinfile: 
+    path: /etc/pam.d/common-account
+    insertafter: 'account required                        pam_permit.so'
+    line:  account required      pam_faillock.so
+
+- name: history  fromt
+  blockinfile: 
+    path: /etc/profile
+    block: |
+      export HISTTIMEFORMAT="[%F %T] [`whoami`] [`who -u am i | awk '{print $1,$2,$3,$4,$7}'`] [`pwd`]"
+      export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; } );logger "$msg"; }' 
+      export TMOUT=3600
+

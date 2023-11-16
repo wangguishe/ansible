@@ -1,0 +1,4 @@
+- name: install nginx for ubuntu22.04
+  apt: name=libssl-dev,zlib1g-dev,libgd-dev,libgeoip-dev,libpcre3-dev
+  when: ansible_distribution_version=="22.04"
+

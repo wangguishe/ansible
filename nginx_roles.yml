@@ -1,0 +1,7 @@
+- hosts: jumpserver
+  remote_user: ubuntu
+  become: yes
+  roles:
+   - role: nginx
+     user: nginx
+     uid: 213

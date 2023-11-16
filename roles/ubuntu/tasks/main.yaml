@@ -1,0 +1,5 @@
+- include: upgrade_os.yaml
+- include: install_software.yaml 
+- include: init_ubuntu.yaml
+- include: configs.yaml
+- include: reboot.yaml

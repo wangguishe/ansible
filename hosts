@@ -1,0 +1,5 @@
+[ubuntu]
+127.0.0.1 ansible_ssh_port=22  ansible_ssh_user=ubuntu hostname=localhost server_id=110
+
+
+

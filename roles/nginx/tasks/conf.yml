@@ -1,0 +1,3 @@
+- name: config file 
+  template: src=nginx.conf.j2 dest=/usr/local/nginx/conf/nginx.conf
+  notify: restart nginx

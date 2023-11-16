@@ -1,0 +1,5 @@
+- hosts: filebeat
+  remote_user: ubuntu
+  become: yes
+  roles:
+   - role: filebeat

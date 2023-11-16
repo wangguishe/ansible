@@ -1,0 +1,10 @@
+- name: 内核优化参数
+  copy: src=sysctl.conf  dest=/etc/sysctl.conf
+- name: 设置文件限制数
+  copy: src=limits.conf  dest=/etc/security/limits.conf
+- name: 修改rsylog记录格式
+  copy: src=50-default.conf  dest=/etc/rsyslog.d/50-default.conf
+- name: 设置用户密码复杂度
+  copy: src=pwquality.conf dest=/etc/security/pwquality.conf
+- name: 设置faillock
+  copy: src=faillock.conf  dest=/etc/security/faillock.conf

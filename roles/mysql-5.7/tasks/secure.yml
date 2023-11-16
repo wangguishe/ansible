@@ -1,0 +1,4 @@
+- name: link mysql.socke
+  file: src=/data/apps/mysql/mysql.sock dest=/tmp/mysql.sock state=link
+- name: secure script
+  script: secure_mysql.sh

@@ -1,0 +1,4 @@
+- name: filebeat.yml
+  copy: 
+    src: filebeat.yml  
+    dest: /usr/local/filebeat/filebeat.yml

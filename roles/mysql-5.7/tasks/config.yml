@@ -1,0 +1,17 @@
+- name: mkdir conf
+  file: 
+    path: /data/apps/mysql/{{ item }} 
+    state: directory 
+    owner: mysql 
+    group: mysql
+  with_items:
+    - data
+    - logs
+    - tmp
+
+- name: my.cnf
+  template: 
+    src: my.cnf.j2  
+    dest: /data/apps/mysql/my.cnf
+    owner: mysql
+    group: mysql 

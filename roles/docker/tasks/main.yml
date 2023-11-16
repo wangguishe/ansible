@@ -1,0 +1,4 @@
+- include: group.yml
+- include: copy.yml
+- include: conf.yml
+- include: service.yml

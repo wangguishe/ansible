@@ -1,0 +1,9 @@
+- name: service script
+  copy: 
+    src: filebeat.service  
+    dest: /lib/systemd/system/filebeat.service
+- name: start service
+  service: 
+    name: filebeat
+    state: started 
+    enabled: yes

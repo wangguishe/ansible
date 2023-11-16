@@ -1,0 +1,14 @@
+- name: create nginx group
+  group: 
+    name: "{{ user }}" 
+    state: present
+    gid: "{{ uid }}"
+- name: create nginx user
+  user: 
+    name: "{{ user }}"  
+    group: "{{ user }}" 
+    shell: /bin/false 
+    system: yes
+    comment: Nginx Server
+    uid: "{{ uid }}"
+    home: /data/apps/nginx

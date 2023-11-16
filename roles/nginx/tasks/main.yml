@@ -1,0 +1,5 @@
+- include: user.yml
+- include: install_deps.yml
+- include: unarchive.yml
+- include: conf.yml
+- include: service.yml
