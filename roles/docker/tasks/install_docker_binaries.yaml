@@ -1,3 +1,30 @@
+- name: create docker group
+  group: 
+    name: docker
+    state: present
+    gid: "{{ gid }}"
+
+- name: copy docker to remote ubuntu22.04
+  copy: 
+    src: docker/
+    dest: /usr/bin/
+    mode: u+x
+
+- name: copy docker-compose to remote ubuntu22.04
+  copy: 
+    src: docker-compose
+    dest: /usr/local/sbin/
+    mode: u+x
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /etc/docker
+    state: directory
+- name: docker daemon.json
+  copy: 
+    src: daemon.json 
+    dest: /etc/docker/daemon.json
+
 - name: service containerd.service script
   copy: 
     src: containerd.service 
@@ -25,3 +52,4 @@
     name: docker.service 
     state: started 
     enabled: yes
+

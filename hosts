@@ -1,5 +1,7 @@
-[ubuntu]
-127.0.0.1 ansible_ssh_port=22  ansible_ssh_user=ubuntu hostname=localhost server_id=110
+[master]
+192.168.174.100 ansible_ssh_port=22  ansible_ssh_user=root hostname=k8s-master-01 node_ip=192.168.174.100
 
+[node]
+192.168.174.101 ansible_ssh_port=22  ansible_ssh_user=root hostname=k8s-node-01 node_ip=192.168.174.101
 
 

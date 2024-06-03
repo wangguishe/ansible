@@ -1,0 +1,11 @@
+- hosts: all
+  remote_user: ubuntu
+  become: yes
+  gather_facts: no
+  vars:
+    cni_version: 1.5.0
+    containerd_version: 1.7.17
+    crictl_version: 1.30.0
+
+  roles:
+   - role: containerd

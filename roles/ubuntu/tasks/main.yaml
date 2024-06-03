@@ -1,5 +1,5 @@
-- include: upgrade_os.yaml
-- include: install_software.yaml 
-- include: init_ubuntu.yaml
-- include: configs.yaml
-- include: reboot.yaml
+- include_tasks: upgrade_os.yaml
+- include_tasks: install_software.yaml 
+- include_tasks: init_ubuntu.yaml
+- include_tasks: configs.yaml
+- include_tasks: reboot.yaml

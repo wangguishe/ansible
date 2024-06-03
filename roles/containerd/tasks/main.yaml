@@ -1,0 +1,49 @@
+- name: Ensure necessary directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+     - /opt/cni/bin
+     - /etc/containerd
+     - /usr/local/bin
+
+- name: Copy installation files to remote host
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode | default('0640') }}"
+  with_items:
+    - { src: "cni-plugins-linux-amd64-v{{ cni_version }}.tgz", dest: "/tmp", mode: '0640' }
+    - { src: "containerd-{{ containerd_version }}-linux-amd64.tar.gz", dest: "/tmp", mode: '0640' }
+    - { src: "crictl-v{{ crictl_version }}-linux-amd64.tar.gz", dest: "/tmp", mode: '0640' }
+    - { src: "runc.amd64", dest: "/usr/local/bin/runc", mode: '0755' }
+    - { src: "containerd.service", dest: "/lib/systemd/system/containerd.service", mode: '0644' }
+    - { src: "containerd-config.toml", dest: "/etc/containerd/config.toml", mode: '0644' }
+    - { src: "crictl.yaml", dest: "/etc/crictl.yaml", mode: '0644' }
+
+- name: Unpack installation files
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: yes
+  with_items:
+    - { src: "cni-plugins-linux-amd64-v{{ cni_version }}.tgz", dest: "/opt/cni/bin" }
+    - { src: "containerd-{{ containerd_version }}-linux-amd64.tar.gz", dest: "/usr/local" }
+    - { src: "crictl-v{{ crictl_version }}-linux-amd64.tar.gz", dest: "/usr/local/bin" }
+
+- name: Start the containerd service
+  ansible.builtin.systemd:
+    name: containerd
+    state: started
+    enabled: yes
+  notify: containerd status
+
+- name: Clean up installation files
+  ansible.builtin.file:
+    path: "/tmp/{{ item }}"
+    state: absent
+  loop:
+    - "cni-plugins-linux-amd64-v{{ cni_version }}.tgz"
+    - "containerd-{{ containerd_version }}-linux-amd64.tar.gz"
+    - "crictl-v{{ crictl_version }}-linux-amd64.tar.gz"
+

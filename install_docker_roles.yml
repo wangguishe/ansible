@@ -1,5 +1,5 @@
-- hosts: es
-  remote_user: ubuntu
+- hosts: all
+  remote_user: root
   become: yes
   roles:
    - role: docker

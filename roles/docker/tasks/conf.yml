@@ -1,8 +1,0 @@
-- name: Create a directory if it does not exist
-  ansible.builtin.file:
-    path: /etc/docker
-    state: directory
-- name: docker daemon.json
-  copy: 
-    src: daemon.json 
-    dest: /etc/docker/daemon.json

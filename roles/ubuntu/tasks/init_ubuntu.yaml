@@ -1,3 +1,6 @@
+- name: Set timezone to Asia/Shanghai
+  ansible.builtin.command: timedatectl set-timezone Asia/Shanghai
+
 - name: 系统时间12小时转为24小时制
   lineinfile: 
     path: /etc/default/locale
@@ -6,6 +9,7 @@
 - name: 设置主机名称
   hostname: 
     name: "{{ hostname }}"
+
 - name: 修改密码过期时间
   lineinfile: 
     path: /etc/login.defs
